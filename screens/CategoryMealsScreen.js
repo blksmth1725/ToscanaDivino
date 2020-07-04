@@ -2,27 +2,34 @@ import React from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 
 import { CATEGORIES, MEALS } from "../data/dummy-data";
+import MealItem from "../components/MealItem";
 
 const CategoryMealsScreen = (props) => {
 	const catId = props.navigation.getParam("categoryId");
 
-	const renderMealItem = (itemData) => {
-		return (
-			<View>
-				<Text>{itemData.item.title}</Text>
-			</View>
-		);
-	};
-
 	const displayedMeals = MEALS.filter(
 		(meal) => meal.categoryId.indexOf(catId) >= 0,
 	);
+	const renderMealItem = (itemData) => {
+		return (
+			<MealItem
+				title={itemData.item.title}
+				complexity={itemData.item.complexity}
+				affordablity={itemData.item.affordablity}
+				image={itemData.item.imageUrl}
+				duration={itemData.item.duration}
+				onSelectMeal={() => {}}
+			/>
+		);
+	};
+
 	return (
 		<View style={styles.screen}>
 			<FlatList
 				data={displayedMeals}
 				keyExtractor={(item, index) => item.id}
 				renderItem={renderMealItem}
+				style={{ width: "100%" }}
 			/>
 		</View>
 	);
@@ -43,6 +50,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
+		margin: 15,
 	},
 });
 
